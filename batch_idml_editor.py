@@ -5,11 +5,11 @@ import os
 import shutil
 import time
 
-#Filename of IDML file (template) in the same directory including ".idml".
+#Path and Filename of IDML file (template), including ".idml".
 #change this
 idml = 'example/business_cards_template.idml'
 
-#Filename of the CSV file (data) in the same directory, including ".csv"
+#Path and Filename of the CSV file (data), including ".csv"
 #change this
 csv_file = 'example/my_data_file.csv'
 
