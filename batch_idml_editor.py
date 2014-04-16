@@ -7,28 +7,27 @@ import time
 
 #Filename of IDML file (template) in the same directory including ".idml".
 #change this
-idml = 'my_idml_template.idml'
+idml = 'example/business_cards_template.idml'
 
 #Filename of the CSV file (data) in the same directory, including ".csv"
 #change this
-csv_file = 'my_data_file.csv'
+csv_file = 'example/my_data_file.csv'
 
 #The search strings we are using with the key from the CSV file that we want to replace it with.
-fields_to_replace = [{'search':'###First###', 'replace_key':'First Name'},
-{'search':'###Last###', 'replace_key':'Last Name'},
-{'search':'###Age###', 'replace_key':'Age'},
-{'search':'###Zip###', 'replace_key':'Zip'},
-{'search':'###Gender###', 'replace_key':'Gender'},
-{'search':'###Study###', 'replace_key':'Study'},
-{'search':'###City###', 'replace_key':'City'},
-{'search':'###State###', 'replace_key':'State'},
-{'search':'###Street###', 'replace_key':'Street'}]
+fields_to_replace = [{'search':'###first###', 'replace_key':'First Name'},
+{'search':'###last###', 'replace_key':'Last Name'},
+{'search':'###title###', 'replace_key':'Title'},
+{'search':'###email###', 'replace_key':'E-mail'}]
+
+output_filename_template = '###first###-###last###-card'
 
 #Unzip the IDML file and save it locally
 template = 'template/'
 shutil.unpack_archive(idml,template, 'zip')
 
 tld = 'output'+str(int(time.time()))+'/'
+
+print('Saving to '+tld+'...')
 
 #open the CSV file
 with open(csv_file, 'rt') as csvfile:
@@ -39,14 +38,11 @@ with open(csv_file, 'rt') as csvfile:
 
 	for row in reader:
 		#For each row in our CSV
-		#Grab a few variables
-		fname = row[header.index('First Name')]
-		lname = row[header.index('Last Name')]
-		study = row[header.index('Study')]
-		zipcode = row[header.index('Zip')]
-		age = row[header.index('Age')]
+
 		#make our filename
-		filename = 'the_resilience_project_report_'+study+'_'+fname+'_'+lname+'_'+zipcode+'_'+age+''
+		filename = output_filename_template
+		for rep in fields_to_replace:
+			filename = filename.replace(rep['search'], row[header.index(rep['replace_key'])])
 		#print it out to the console
 		print(filename)
 
