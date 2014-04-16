@@ -50,9 +50,13 @@ Each time you run the script, a new output directory will be created. Inside tha
 
 After you have your directory of IDML files, you can use a script like the one at http://www.kahrel.plus.com/indesign/batch_convert.html to do a batch convert to PDF or other format.
 
-Why Not InDesign DataMerge
-==========================
+Why Not InDesign DataMerge?
+===========================
 The DataMerge feature in Adobe InDesign and Illustrator is very powerful and allows you to do basically the same thing(and more!) within the app itself. We have found that this is a great option, but has some limits on the number of rows it can process and doesn't play well with multi-page documents. It also doesn't let you create meaningful filenames for the resulting files. In particular, we built this to be able to export several hundred PDFs with custom filenames based on the content of the data.
+
+How it Works
+============
+When you unzip an IDML file, there are several folders that contain XML files. One of those folders, `Stories`, has all of your content. For each row of your CSV, this script unzips the IDML file which serves as the template, performs a find and replace an all of the files in the `Stories` folder, and then zips the new sets of files as an IDML file. It doesn't interact with InDesign in any way, just with the IDML files themselves.
 
 Dependencies
 ============
@@ -64,3 +68,9 @@ Note that this has only been tested on Mac OSX. There will likely need to be a f
 Contributing
 ============
 To make changes or improvements, fork this repo. Pull requests accepted. Feel free to create issue tickets to ask questions about how it works or suggest improvements.
+
+Ways to Improve:
+* Use the IDML SDK that Adobe provides to validate the IDML file (right now no validation takes place)
+* Add more robust templating options (such as Handlebars or Mustache support)
+* Separate the run-time data from the portion of the script that doesn't need changing
+* Add more error handling.
