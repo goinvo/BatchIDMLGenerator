@@ -4,6 +4,7 @@ import glob
 import os
 import shutil
 import time
+import codecs
 
 #Path and Filename of IDML file (template), including ".idml".
 #change this
@@ -13,11 +14,17 @@ idml = 'example/business_cards_template.idml'
 #change this
 csv_file = 'example/my_data_file.csv'
 
+#Separator for fields in the CSV file (in case you want a 'tab', just change to '\t')
+#change this
+separator=','
+
 #The search strings we are using with the key from the CSV file that we want to replace it with.
-fields_to_replace = [{'search':'###first###', 'replace_key':'First Name'},
-{'search':'###last###', 'replace_key':'Last Name'},
-{'search':'###title###', 'replace_key':'Title'},
-{'search':'###email###', 'replace_key':'E-mail'}]
+fields_to_replace = [
+	{'search':'###first###', 'replace_key':'First Name'},
+	{'search':'###last###', 'replace_key':'Last Name'},
+	{'search':'###title###', 'replace_key':'Title'},
+	{'search':'###email###', 'replace_key':'E-mail'}
+]
 
 output_filename_template = '###first###-###last###-card'
 
@@ -30,9 +37,9 @@ tld = 'output'+str(int(time.time()))+'/'
 print('Saving to '+tld+'...')
 
 #open the CSV file
-with open(csv_file, 'rt') as csvfile:
+with codecs.open(csv_file, 'r', encoding='utf-8') as csvfile:
 	#construct our reader for the CSV file
-	reader = csv.reader(csvfile, delimiter=',')
+	reader = csv.reader(csvfile, delimiter=separator)
 	#read the header line
 	header = next(reader)
 
@@ -53,9 +60,9 @@ with open(csv_file, 'rt') as csvfile:
 		#for each file that we want to modify
 		for entry in stories:
 			#open a new file that we will write to
-			with open('tmp.tmp', "wt") as fout:
+			with codecs.open('tmp.tmp', "w", encoding='utf-8') as fout:
 				#open the file that we want to read from
-				with open(template+'Stories/'+entry, "rt") as fin:
+				with codecs.open(template+'Stories/'+entry, "r", encoding='utf-8') as fin:
 					#on every line
 					for line in fin:
 						line2 = line
